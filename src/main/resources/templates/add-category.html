@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dodaj element</title>
+    <link rel="stylesheet" type="text/css" href="/css/AddStyle.css" />
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/index">Home</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/items/">Zadania</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/categories/">Kategorie</a></li>
+        <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="/users/">Użytkownicy</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/logout">Wyloguj</a></li>
+    </ul>
+</nav>
+<h1>Dodaj element</h1>
+<form th:action="@{/categories/add}" th:object="${category}" method="post">
+    <label for="name">Nazwa:</label>
+    <input type="text" id="name" name="name" th:field="*{name}"/><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span><br/><br/>
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>

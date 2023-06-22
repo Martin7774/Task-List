@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="/css/items_categories.css" />
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a href="/index">Home</a></li>
+    <li><a sec:authorize="isAuthenticated()" href="/items/">Zadania</a></li>
+    <li><a sec:authorize="isAuthenticated()" href="/categories/">Kategorie</a></li>
+    <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="/users/">Użytkownicy</a></li>
+    <li><a sec:authorize="isAuthenticated()" href="/logout">Wyloguj</a></li>
+  </ul>
+</nav>
+
+<a href="/items/">
+  <h1>Lista Zadań</h1>
+</a>
+
+<div class="form-wrapper">
+  <form action="/items/filter" class="filter-form" method="post">
+    <div>
+      <label for="startDate">Data początkowa:</label>
+      <input type="date" id="startDate" class="input-date" name="startDate" required>
+    </div>
+
+    <div>
+      <label for="endDate">Data końcowa:</label>
+      <input type="date" id="endDate" class="input-date" name="endDate" required>
+    </div>
+
+    <div>
+      <button type="submit">Filtruj</button>
+      <button type="button" onclick="window.location.href='/items/'">Resetuj</button>
+    </div>
+  </form>
+</div>
+
+<div class="table-wrapper">
+
+  <table class="fl-table">
+    <thead>
+    <tr>
+      <th class="table-header">Id</th>
+      <th class="table-header">Nazwa</th>
+      <th class="table-header">Opis</th>
+  <!--    <th class="table-header sortAsc" onclick="sortTable(document.querySelector('.table-items'), 3)">Termin</th>-->
+      <th class="table-header">
+        <a th:href="@{/items/sort?column=deadline}">Termin</a>
+      </th>
+      <th class="table-header">Wykonane</th>
+      <th class="table-header">
+        <a th:href="@{/items/sort?column=category}">Kategoria</a>
+      </th>
+      <th class="table-header">Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${items}" class="table-items">
+      <td th:text="${item.id}" class="table-data"></td>
+      <td th:text="${item.name}" class="table-data"></td>
+      <td th:text="${item.description}" class="table-data"></td>
+      <td th:text="${#temporals.format(item.deadline, 'yyyy-MM-dd')}" class="table-data table-date"></td>
+      <td th:text="${item.isDone}" class="table-data"></td>
+      <td th:text="${item.category.name}" class="table-data"></td>
+      <td class="table-data">
+        <a th:href="@{/items/edit/{id}(id=${item.id})}" class="btn btn-edit">Edytuj</a>
+        <form th:action="@{/items/delete/{id}(id=${item.id})}" method="post" style="display: inline;">
+          <input type="hidden" name="_method" value="delete" />
+          <button sec:authorize="isAuthenticated()" type="submit" class="btn btn-delete">Usuń</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<a sec:authorize="isAuthenticated()" href="/items/add" class="btn btn-add">Dodaj Zadanie</a>
+<script>
+  function sortTable(header, columnIndex) {
+  // function sortTable(items) {
+
+    // console.log('Items: ', items);
+    // console.log('Sorted items: ', items.sort());
+
+    const container = header.parentElement;
+    console.log('container: ', container);
+
+    // const descending = initialDirection === 0 ? false : true;
+    let descending;
+
+    container.querySelectorAll(".table-header").forEach(function(header) {
+      header.classList.remove("sortAsc", "sortDesc");
+    });
+
+    const rows = Array.from(container.querySelectorAll("tr.table-items"));
+    console.log('rows: ', rows);
+    // container.removeChild()
+    const comparator = function(a, b) {
+      console.log('headers: ', document.querySelectorAll('th.table-header')[columnIndex].classList);
+      descending = !(document.querySelectorAll('th.table-header')[columnIndex].classList.contains("sortAsc"));
+      console.log('descending: ', descending)
+      const ka = makeComparable(a.children[columnIndex].textContent);
+      const kb = makeComparable(b.children[columnIndex].textContent);
+      // console.log('ka: ', ka);
+      // console.log('kb: ', kb);
+
+      if (ka < kb)
+        return descending ? 1 : -1;
+      if (ka > kb)
+        return descending ? -1 : 1;
+      return 0;
+    };
+
+    const sorted = rows.sort(comparator);
+    console.log('sorted: ', sorted);
+    let visible = 0;
+
+    sorted.forEach(function(row) {
+      if (row.style.display !== "none") {
+        let isEvenRow = visible++ % 2 === 0;
+        container.removeChild(row);
+        const tr = container.appendChild(document.createElement("tr"));
+        tr.classList.add(['table-items'])
+        !descending ?
+                document.querySelectorAll('th.table-header')[columnIndex].classList.replace('sortAsc','sortDesc') :
+                document.querySelectorAll('th.table-header')[columnIndex].classList.replace('sortDesc', 'sortAsc');
+        Array.from(row.children).forEach(function(cell) {
+          // toggleStyle(cell.classList, isEvenRow, "evenRowColor", "oddRowColor");
+
+          tr.appendChild(cell);
+          // container.appendChild('</tr>');
+        });
+      }
+      toggleStyle(row.classList, descending, "sortDesc", "sortAsc");
+    });
+  }
+
+  function toggleStyle(classList, condition, className1, className2) {
+    if (condition) {
+      classList.remove(className2);
+      classList.add(className1);
+    } else {
+      classList.remove(className1);
+      classList.add(className2);
+    }
+  }
+
+  function makeComparable(s) {
+    return s.toLowerCase().replace(/(\d+)/g,
+            function(n, m) {
+              return ("000" + m).slice(-4);
+            });
+  }
+
+  function filterTableByDateRange() {
+    const startDate = new Date(document.getElementById("startDateInput").value);
+    const endDate = new Date(document.getElementById("endDateInput").value);
+    console.log('startDate: ', startDate);
+    console.log('startDate: ', startDate);
+
+
+    const tableRows = Array.from(document.querySelectorAll(".table-items"));
+    console.log('tableRows: ', tableRows);
+
+    tableRows.forEach(function(row) {
+      // console.log('row: ', row);
+
+      const dateText = row.querySelector(".table-date").textContent;
+      const rowDate = new Date(dateText);
+      console.log('rowDate: ', rowDate);
+
+      if (rowDate >= startDate && rowDate <= endDate) {
+        row.style.display = ""; // Wyświetl wiersz
+      } else {
+        row.style.display = "none"; // Ukryj wiersz
+      }
+    });
+  }
+
+  function resetTableFilter() {
+    const tableRows = Array.from(document.querySelectorAll(".table-items"));
+    document.getElementById("startDateInput").value = "";
+    document.getElementById("endDateInput").value = "";
+
+    tableRows.forEach(function(row) {
+      row.style.display = ""; // Przywróć widoczność wiersza
+    });
+  }
+</script>
+</body>
+</html>

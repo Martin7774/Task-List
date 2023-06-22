@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://java://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" type="text/css" href="/css/indexStyle.css" />
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+</head>
+<body>
+<h1 class="title">Witaj w To Do List</h1>
+<button sec:authorize="isAuthenticated()" onclick="window.location.href='/items/'" >Pokaż zadania</button>
+<button sec:authorize="isAuthenticated()" onclick="window.location.href='/categories/'">Pokaż kategorie</button>
+<button sec:authorize="hasRole('ROLE_ADMIN')" onclick="window.location.href='/users/'">Pokaż użytkowników</button>
+<a></a>
+<button  sec:authorize="isAuthenticated()" onclick="window.location.href='/logout'">Wyloguj</button>
+<button  sec:authorize="!isAuthenticated()" onclick="window.location.href='/login'">Zaloguj</button>
+<button  sec:authorize="!isAuthenticated()" onclick="window.location.href='/register'">Zarejestruj się</button>
+</body>
+</html>

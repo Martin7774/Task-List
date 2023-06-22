@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edytuj element</title>
+    <link rel="stylesheet" type="text/css" href="/css/AddStyle.css" />
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/index">Home</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/items/">Zadania</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/categories/">Kategorie</a></li>
+        <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="/users/">Użytkownicy</a></li>
+        <li><a sec:authorize="isAuthenticated()" href="/logout">Wyloguj</a></li>
+    </ul>
+</nav>
+<form method="POST" th:object="${category}" th:action="@{'/categories/edit/' + ${category.id}}">
+    <input type="hidden" th:field="*{id}" />
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" th:field="*{name}"/><span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span><br><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

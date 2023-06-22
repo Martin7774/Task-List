@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="/css/items_categories.css" />
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a href="/index">Home</a></li>
+    <li><a sec:authorize="isAuthenticated()" href="/items/">Zadania</a></li>
+    <li><a sec:authorize="isAuthenticated()" href="/categories/">Kategorie</a></li>
+    <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="/users/">Użytkownicy</a></li>
+    <li><a sec:authorize="isAuthenticated()" href="/logout">Wyloguj</a></li>
+  </ul>
+</nav>
+<h1>Kategorie</h1>
+<div class="table-wrapper">
+  <table class="fl-table">
+    <thead>
+    <tr>
+      <th class="table-header">Id</th>
+      <th class="table-header">Nazwa</th>
+      <th class="table-header">Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="role : ${roles}">
+      <td th:text="${role.id}" class="table-data"></td>
+      <td th:text="${role.name}" class="table-data"></td>
+      <td class="table-data">
+        <a th:href="@{/roles/edit/{id}(id=${role.id})}" class="btn btn-edit">Edytuj</a>
+        <form th:action="@{/roles/delete/{id}(id=${role.id})}" method="post" style="display: inline;">
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit" class="btn btn-delete">Usuń</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<a href="/roles/add" class="btn btn-primary">Dodaj Kategorie</a>
+</body>
+</html>

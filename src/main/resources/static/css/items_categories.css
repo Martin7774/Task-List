@@ -1,0 +1,300 @@
+body{
+font-family: Arial, Helvetica, sans-serif;
+
+/*Center Everything*/
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    max-height: 100vh;
+
+}
+
+ .btn-filter{
+    all: initial;
+     font-family: Arial, Helvetica, sans-serif;
+     display: inline-block;
+     padding: 10px 20px;
+     font-size: 16px;
+     text-align: center;
+     text-decoration: none;
+     background-color: #553c9a;
+     color: #fff;
+     border: none;
+     border-radius: 4px;
+     cursor: pointer;
+}
+.btn-delete{
+    all: initial;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.btn-reset{
+    all: initial;
+    font-family: Arial, Helvetica, sans-serif;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #ee4b2b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+h1 {
+font-size: 70px;
+font-weight: 600;
+background-image: conic-gradient(
+#553c9a 0%, #553c9a 33%, #ee4b2b 33%, #ee4b2b 66%, #00c2cb 66%, #00c2cb 99%
+);
+color: transparent;
+background-clip: text;
+-webkit-background-clip: text;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #428bca;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.btn-primary {
+background-color: #428bca;
+}
+
+.btn-delete {
+background-color: #dc3545;
+}
+
+/* Table Styles */
+.table-header {
+background-color: #f5f5f5;
+font-weight: bold;
+}
+
+.table-data {
+border: 1px solid #ccc;
+padding: 5px;
+}
+.table-wrapper{
+    margin: 10px 70px 70px;
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
+.form-wrapper{
+    margin: 10px 70px;
+}
+
+.filter-form{
+    display: flex;
+    flex-direction: row;
+}
+.filter-form div{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+.filter-form div button{
+    padding: 5px 15px;
+}
+.filter-form div button:last-child{
+    margin-left: 15px;
+}
+.filter-form div input{
+    margin-left: 10px;
+}
+
+.fl-table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.fl-table td, .fl-table th {
+    text-align: center;
+    padding: 15px;
+}
+
+.fl-table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 16px;
+}
+
+.fl-table thead th {
+    color: #ffffff;
+    background: #00c2cb;
+    font-size: 16px;
+}
+.fl-table thead th a {
+    color: #ffffff;
+    font-size: 16px;
+}
+
+
+.fl-table thead th:nth-child(odd) {
+    color: #ffffff;
+    background: #324960;
+}
+
+.fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+}
+.btn-add{
+    padding: 15px 25px;
+    font-weight: bold;
+    font-size: 1.7em;
+}
+.input-date{
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 12px;
+    border: 1px solid #5b5858;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+    .fl-table {
+        display: block;
+        width: 100%;
+    }
+    .table-wrapper:before{
+        content: "Scroll horizontally >";
+        display: block;
+        text-align: right;
+        font-size: 11px;
+        color: white;
+        padding: 0 0 10px;
+    }
+    .fl-table thead, .fl-table tbody, .fl-table thead th {
+        display: block;
+    }
+    .fl-table thead th:last-child{
+        border-bottom: none;
+    }
+    .fl-table thead {
+        float: left;
+    }
+    .fl-table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+    }
+    .fl-table td, .fl-table th {
+        padding: 20px .625em .625em .625em;
+        height: 60px;
+        vertical-align: middle;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 120px;
+        font-size: 13px;
+        text-overflow: ellipsis;
+    }
+    .fl-table thead th {
+        text-align: left;
+        border-bottom: 1px solid #f7f7f9;
+    }
+    .fl-table tbody tr {
+        display: table-cell;
+    }
+    .fl-table tbody tr:nth-child(odd) {
+        background: none;
+    }
+    .fl-table tr:nth-child(even) {
+        background: transparent;
+    }
+    .fl-table tr td:nth-child(odd) {
+        background: #F8F8F8;
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tr td:nth-child(even) {
+        border-right: 1px solid #E6E4E4;
+    }
+    .fl-table tbody td {
+        display: block;
+        text-align: center;
+    }
+}
+
+/*Button Style*/
+button {
+    --c:  #229091; /* the color*/
+
+    box-shadow: 0 0 0 .1em inset var(--c);
+    --_g: linear-gradient(var(--c) 0 0) no-repeat;
+    background:
+            var(--_g) calc(var(--_p,0%) - 100%) 0%,
+            var(--_g) calc(200% - var(--_p,0%)) 0%,
+            var(--_g) calc(var(--_p,0%) - 100%) 100%,
+            var(--_g) calc(200% - var(--_p,0%)) 100%;
+    background-size: 50.5% calc(var(--_p,0%)/2 + .5%);
+    outline-offset: .1em;
+    transition: background-size .4s, background-position 0s .4s;
+}
+button:hover {
+    --_p: 100%;
+    transition: background-position .4s, background-size 0s;
+}
+button:active {
+    box-shadow: 0 0 9e9q inset #0009;
+    background-color: var(--c);
+    color: #fff;
+}
+
+
+button {
+    font-family: system-ui, sans-serif;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: .1em .6em;
+    font-weight: bold;
+    border: none;
+}
+
+/* Nav Style*/
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    padding: 5px 10px;
+    color: #333;
+}
+
+nav ul li a:hover {
+    color: #fff;
+    background-color: #333;
+}
+
+nav ul li .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+}
+
+nav ul li .btn-primary:hover {
+    background-color: #0056b3;
+}
